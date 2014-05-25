@@ -25,7 +25,7 @@ Metrics()
 
   **It separates data and views:** split the raw data from how its presented.
 
-  **It's dashboard agnostic:** so you can use [Geckoboard][4], [Ducksboard][5], [Leftronic][6], or your own internal metrics.
+  **It's dashboard agnostic:** so you can use [Geckoboard][4], [Ducksboard][5], [Leftronic][6], or your own internal dashboard.
 
   **It pushes you in the right direction:** use [Segment][7]'s [metrics expertise][8] to avoid the wrong metrics.
 
@@ -45,7 +45,7 @@ Metrics()
 
 ## How does it work?
 
-**Metrics** is super simple. You write a plugin that puts data in, and you write plugins that use that data. [Segment](https://segment.com) uses it for sending internal metrics to a dashboard. 
+**Metrics** is super simple. You write a plugin that puts data in, and you write plugins that use that data. [Segment](https://segment.io) uses it for sending internal metrics to a dashboard. 
 
 A plugin can learn about how much you're making on Stripe, and make that data available:
 
@@ -73,7 +73,7 @@ and now you have your first dashboard.
 
 ```js
 Metrics()
-  .every('5m', charges('stripe-key'))
+  .every('5m', charges)
   .use(dashboard);
 ```
 
@@ -82,7 +82,7 @@ Metrics()
 Existing plugins for metrics can tell you:
 
 - [metrics-aws-billing](https://github.com/segmentio/metrics-aws-billing) - how much your AWS hosting costs
-- [metrics-helpscout](https://github.com/segmentio/metrics-helpscout) - how many active [Helpscout](http://helpscout.com) support tickets you have, and who they are assigned to
+- [metrics-helpscout](https://github.com/segmentio/metrics-helpscout) - how many active [Helpscout](http://helpscout.com) support tickets you have, and who they're assigned to
 - [metrics-stripe-charges](https://github.com/metrics-stripe-charges) - how much money you're making every month (and today!)
 - [metrics-stripe-subscriptions](https://github.com/metrics-stripe-charges) - how much subscriptions you have, and how much recurring revenue you're generating
 
@@ -90,7 +90,7 @@ Existing plugins for metrics can tell you:
 
 ## API
 
-At its core, **metrics** is a simple key value store. Plugins put data into the hashtable, and then use that data to update dashboards, send emails, and really anything you want.
+At its core, **metrics** is a simple key value store. Plugins put data into a hashtable, and then use that data to update dashboards, send emails, and really anything you want.
 
 #### new Metrics()
 
