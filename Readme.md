@@ -87,7 +87,7 @@ Metrics()
 
 ## Plugins
 
-Existing plugins for metrics can tell you:
+ Existing plugins for metrics can tell you:
 
 - [metrics-aws-billing](https://github.com/segmentio/metrics-aws-billing) - how much your AWS hosting costs
 - [metrics-helpscout](https://github.com/segmentio/metrics-helpscout) - how many active [Helpscout](http://helpscout.com) support tickets you have, and who they're assigned to
@@ -95,6 +95,8 @@ Existing plugins for metrics can tell you:
 - [metrics-stripe-subscriptions](https://github.com/metrics-stripe-charges) - how much subscriptions you have, and how much recurring revenue you're generating
 
 ![](https://f.cloud.github.com/assets/658544/2361183/33c4df78-a62e-11e3-9921-6591e787e43e.png)
+
+It's normal for every company to care about different metrics. If your plugin can help others do easier reporting, pull request this [Readme.md](https://github.com/segmentio/metrics/blob/master/Readme.md) to add your own plugins.
 
 ## API
 
