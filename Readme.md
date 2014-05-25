@@ -3,7 +3,9 @@
 
 # metrics
 
-  Simple and _pluggable_ business **metrics**.
+  Simple and _pluggable_ business **metrics** to help make internal reporting _much_ easier.
+
+  Plugins write data into a key value store, and other plugins then send that data to dashboards or other reporting tools.
 
   [Segment](https://segment.io) uses **metrics** as an internal API to power our dashboards, auto-updating spreadsheets, and other admin services. 
 
