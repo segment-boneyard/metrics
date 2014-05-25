@@ -22,7 +22,7 @@ Metrics()
   });
 ```
 
-that you can use to update dashboards,
+This code calculates revenue and support metrics that can then be graphed onto a dashboard, like [Geckoboard](https://geckoboard.com):
 
 ![](https://f.cloud.github.com/assets/658544/2361169/09325510-a62e-11e3-8f49-e327e89595cd.png)
 
