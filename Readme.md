@@ -3,9 +3,7 @@
 
 # metrics
 
-  Simple and _pluggable_ business **metrics** to help make internal reporting _much_ easier.
-
-  Plugins write data into a key value store, and other plugins then send that data to dashboards or other reporting tools.
+  Simple and _pluggable_ business **metrics**. It makes internal reporting _much_ easier.
 
   [Segment](https://segment.io) uses **metrics** as an internal API to power our dashboards, auto-updating spreadsheets, and other admin services. 
 
@@ -55,7 +53,7 @@ that you can use to update dashboards,
 
 ## How does it work?
 
-**Metrics** is super simple. You write a plugin that puts data in, and you write plugins that use that data. [Segment](https://segment.io) uses it for sending internal metrics to a dashboard. 
+**Metrics** is super simple. Plugins write data into a key value store, and other plugins then send that data to dashboards or other reporting tools.
 
 A plugin can learn about how much you're making on Stripe, and make that data available:
 
