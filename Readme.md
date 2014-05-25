@@ -1,10 +1,11 @@
-[![Build Status](https://circleci.com/gh/segmentio/metrics.png?circle-token=bf2af92121185d80a46f1a1f605a90ee1a6b4be1)](https://circleci.com/gh/segmentio/metrics)
 
 # metrics
 
-  Simple and _pluggable_ business metrics.
+[![Build Status](https://circleci.com/gh/segmentio/metrics.png?circle-token=bf2af92121185d80a46f1a1f605a90ee1a6b4be1)](https://circleci.com/gh/segmentio/metrics)
 
-// todo: put another line before the code
+  Simple and _pluggable_ business **metrics**.
+
+  [Segment](https://segment.io) uses **metrics** to power our internal dashboards. Its also used as an internal API for other admin services, like auto-updating Google spreadsheets.
 
 ```js
 var Metrics = require('metrics');
@@ -97,25 +98,25 @@ Existing plugins for metrics can tell you:
 
 ## API
 
-At its core, **metrics** is a simple key value store. Plugins put data into a hashtable, and then use that data to update dashboards, send emails, and really anything you want.
+At its core, **metrics** is a simple key value store. Plugins put data into a hashtable, and other plugins then use that data to update dashboards, send emails, or really anything you want.
 
 #### new Metrics()
 
 Create a new `Metrics` instance.
 
-#### #set(key, val)
+#### .set(key, val)
 
 Set a `key` / `val` pair.
 
-#### #get(key)
+#### .get(key)
 
 Get a value at `key`.
 
-#### #keys()
+#### .keys()
 
 Get a list of keys.
 
-#### #every(interval, plugin)
+#### .every(interval, plugin)
 
 Add a metrics plugin to run on an `interval`.
 
@@ -127,7 +128,7 @@ var metrics = new Metrics()
   });
 ```
 
-#### #on(keys.., cb)
+#### .on(keys.., cb)
 
 Listen for when one or more keys become available.
 
@@ -143,7 +144,7 @@ metrics.on('hours', 'minutes', function (h, m) {
 });
 ```
 
-#### #use(plugin)
+#### .use(plugin)
 
 Add a plugin that consumes metrics data.
 
