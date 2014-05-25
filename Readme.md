@@ -1,17 +1,27 @@
 
-# dashboards
+# metrics
 
-  Simple and _pluggable_ dashboards.
+  Simple and _pluggable_ business metrics.
 
 ```js
-var Dashboards = require('dashboards');
+var Metrics = require('metrics');
+var charges = require('metrics-stripe-charges');
+var subscriptions = require('metrics-stripe-subscriptions');
+var helpscout = require('metrics-helpscout');
+var geckoboard = require('geckoboard')('g-api-key');
 
-var dashboards = new Dashboards()
-  .use(subscriptions('stripe-key'))
-  .use(charges('stripe-key'))
-  .use(support('helpscout-key'))
-  .use(pipe('active tickets', geckoboard('widget-id').number)
-  .run();
+var metrics = new Metrics()
+  .every('5m', charges('stripe-key'))
+  .every('10m', subscriptions('stripe-key'))
+  .every('1h', helpscout('helpscout-key'))
+
+  .use(function (metrics) {
+    metrics.on('stripe charges last month', function (val) {
+      geckoboard('widget-id').number(val, function () {
+        console.log('we have data in a dashboard!');
+      });
+    });
+  });
 ```
 
 ![](https://f.cloud.github.com/assets/658544/2361169/09325510-a62e-11e3-8f49-e327e89595cd.png)
@@ -19,15 +29,15 @@ var dashboards = new Dashboards()
 
   **It's easy to get started:** there's already plugins for [Stripe][1], [Helpscout][2], [AWS][3], and others.
 
-  **It separates data and views:** make your own decisions about what to put on your dashboards.
+  **It separates data and views:** split the raw data from how its presented.
 
-  **It's dashboard agnostic:** so you can use [Geckoboard][4], [Ducksboard][5], [Leftronic][6], or your own internal dashboards.
+  **It's dashboard agnostic:** so you can use [Geckoboard][4], [Ducksboard][5], [Leftronic][6], or your own internal metrics.
 
-  **It pushes you in the right direction:** use [Segment.io][7]'s [dashboards expertise][8] to avoid the wrong metrics.
+  **It pushes you in the right direction:** use [Segment.io][7]'s [metrics expertise][8] to avoid the wrong metrics.
 
-[1]: https://github.com/dashboards-stripe-charges
-[2]: https://github.com/segmentio/dashboards-helpscout
-[3]: https://github.com/segmentio/dashboards-aws-billing
+[1]: https://github.com/metrics-stripe-charges
+[2]: https://github.com/segmentio/metrics-helpscout
+[3]: https://github.com/segmentio/metrics-aws-billing
 [4]: http://www.geckoboard.com/
 [5]: https://ducksboard.com/
 [6]: https://www.leftronic.com/
@@ -36,96 +46,124 @@ var dashboards = new Dashboards()
 
 ## Installation
 
-    $ npm install dashboards
+    $ npm install segmentio/metrics
 
 
 ## How does it work?
 
-**Dashboards** is super simple. You write a plugin that puts data in, and you write plugins that send data to a dashboard. Plugins that need data defer execution until that data is available.
+**Metrics** is super simple. You write a plugin that puts data in, and you write plugins that use that data. [Segment](https://segment.com) uss it for sending data to a dashboard. Plugins that need data defer execution until that data is available.
 
 A plugin can learn about how much you're making on Stripe, and make that data available:
 
 ```js
-var Stripe = require('stripe');
+var stripe = require('stripe')(key);
 
-function charges (key) {
-  var stripe = Stripe(key);
-  return function (data, callback) {
-    stripe.charges.list(function (err, charges)) {
-        data['charges'] = charges.reduce(function (memo, charge) {
-          return memo + (charge.amount / 100);
-        }, 0);
-        callback();
-    });
-  };
-}
+module.exports = function (metrics) {
+  stripe.charges.list(function (err, charges) {
+    metrics.set('total charges', charges.length);
+    metrics.set('total charged', charges.reduce(function (memo, charge) {
+      return memo + charge.amount;
+    }, 0));
+  });
+};
 ```
 
-and another plugin can push the charge data to a geckoboard:
+and another plugin can push the data to a geckoboard:
 
 ```js
 var geckoboard = require('geckobard')('api-key');
 
-function ready (data) {
-  return data.charges != null;
-}
-
-function send (data, callback) {
-  geckoboard('widget-id').number(data.charges, callback);
+module.exports = function (metrics) {
+  metrics.on('total charged', function (val) {
+    geckoboard('widget-id').number(val);
+  });
 }
 ```
 
-and now you have your first dashboard:
+and now you have your first dashboard.
 
 ```js
-var dashboards = new Dashboards()
-  .use(charges('stripe-key'))
-  .when(ready, send)
-  .run();
-```
-
-but wait! waiting for data and piping it to a dashboard gets even easier: 
-
-```js
-var dashboards = new Dashboards()
-  .use(charges('stripe-key'))
-  .use(pipe('charges', geckoboard('widget-id').number)
-  .run();
+var metrics = new Metrics()
+  .every('5m', charges('stripe-key'))
+  .use(dashboard);
 ```
 
 ## Plugins
 
-Existing plugins for dashboards can tell you:
+Existing plugins for metrics can tell you:
 
-- [dashboards-aws-billing](https://github.com/segmentio/dashboards-aws-billing) - how much your AWS hosting costs
-- [dashboards-helpscout](https://github.com/segmentio/dashboards-helpscout) - how many active [Helpscout](http://helpscout.com) support tickets you have, and who they are assigned to
-- [dashboards-stripe-charges](https://github.com/dashboards-stripe-charges) - how much money you're making every month (and today!)
-- [dashboards-stripe-subscriptions](https://github.com/dashboards-stripe-charges) - how much subscriptions you have, and how much recurring revenue you're generating
+- [metrics-aws-billing](https://github.com/segmentio/metrics-aws-billing) - how much your AWS hosting costs
+- [metrics-helpscout](https://github.com/segmentio/metrics-helpscout) - how many active [Helpscout](http://helpscout.com) support tickets you have, and who they are assigned to
+- [metrics-stripe-charges](https://github.com/metrics-stripe-charges) - how much money you're making every month (and today!)
+- [metrics-stripe-subscriptions](https://github.com/metrics-stripe-charges) - how much subscriptions you have, and how much recurring revenue you're generating
 
 ![](https://f.cloud.github.com/assets/658544/2361183/33c4df78-a62e-11e3-9921-6591e787e43e.png)
 
 ## API
 
-#### new Dashboards()
+At its core, `metrics` is a simple key value store. You can `set` key / value pairs, and then get then back. plugins listen for when keys are set and update themselves.
 
-Create a new `Dashboards` instance.
+#### new Metrics()
+
+Create a new `Metrics` instance.
+
+#### .set(key, val)
+
+Set a `key` / `val` pair.
+
+#### .get(key)
+
+Get a value at `key`.
+
+#### .keys()
+
+Get a list of keys.
+
+#### .every(interval, plugin)
+
+Add a metrics plugin to run on an `interval`.
+
+```js
+var metrics = new Metrics()
+  .every('5m', function (metrics) {
+    metrics.set('hours', new Date().getHours());
+    metrics.set('minutes', new Date().getMinutes());
+  });
+```
+
+#### .on(keys.., cb)
+
+Listen for when one or more keys become available.
+
+```js
+var metrics = new Metrics()
+  .every('5m', function (metrics) {
+    metrics.set('hours', new Date().getHours());
+    metrics.set('minutes', new Date().getMinutes());
+  });
+
+metrics.on('hours', 'minutes', function (h, m) {
+  console.log('time update: ' + h + ':' + m);
+});
+```
 
 #### #use(plugin)
 
-Add a dashboard `plugin` which is either a function or an object that contains a `fn` plugin and a `ready` function, like so:
+Add a plugin that consumes metrics data.
 
 ```js
-{ ready: hasCharges, fn: send }
+new Metrics()
+  .every('5m', function (metrics) {
+    metrics.set('hours', new Date().getHours());
+    metrics.set('minutes', new Date().getMinutes());
+  })
+  .use(function (metrics) {
+    metrics.on('hours', 'minutes', function (h, m) {
+      console.log('time update: ' + h + ':' + m);
+    });
+  });
+
 ```
-
-#### #when(ready, fn)
-
-Execute the dashboard plugin `fn` when the `ready` function returns true. This allows you to wait until you have a piece of data before sending it to a dashboard. Read more about ready functions in [parallel-ware](https://github.com/segmentio/parallel-ware).
-
-#### #run(callback)
-
-  Run the dashboard plugins.
-
 
 ## License
 
