@@ -22,7 +22,9 @@ Metrics()
   });
 ```
 
-This code calculates revenue and support metrics that can then be graphed onto a dashboard, like [Geckoboard](https://geckoboard.com):
+Plugins add their own metrics using keys like `stripe charges last month`. Each company can customize their reporting by writing their own plugins. 
+
+The code above calculates revenue and support metrics that can then be visualized with a dashboard, like [Geckoboard](https://geckoboard.com):
 
 ![](https://f.cloud.github.com/assets/658544/2361169/09325510-a62e-11e3-8f49-e327e89595cd.png)
 
