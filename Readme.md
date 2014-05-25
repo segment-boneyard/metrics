@@ -22,7 +22,7 @@ Metrics()
   });
 ```
 
-Plugins add their own metrics using keys like `stripe charges last month`. Each company can customize their reporting by writing their own plugins. 
+Plugins add their own metrics using keys like `stripe charges last month`. Each company can customize their reporting by writing their own [plugins](#plugins). 
 
 The code above calculates revenue and support metrics that can then be visualized with a dashboard, like [Geckoboard](https://geckoboard.com):
 
@@ -95,10 +95,11 @@ Metrics()
 - [metrics-helpscout](https://github.com/segmentio/metrics-helpscout) - how many active [Helpscout](http://helpscout.com) support tickets you have, and who they're assigned to
 - [metrics-stripe-charges](https://github.com/metrics-stripe-charges) - how much money you're making every month (and today!)
 - [metrics-stripe-subscriptions](https://github.com/metrics-stripe-charges) - how much subscriptions you have, and how much recurring revenue you're generating
+- [metrics-express](https://github.com/metrics-express) - serves your metrics as an HTTP API using an express subapp
 
 ![](https://f.cloud.github.com/assets/658544/2361183/33c4df78-a62e-11e3-9921-6591e787e43e.png)
 
-It's normal for every company to care about different metrics. If your plugin can help others do easier reporting, pull request this [Readme.md](https://github.com/segmentio/metrics/blob/master/Readme.md) to add your own plugins.
+It's normal for every company to care about different metrics. If your plugin can help others do easier reporting, pull request this [Readme.md](https://github.com/segmentio/metrics/blob/master/Readme.md) to add your own plugin to this list.
 
 ## API
 
