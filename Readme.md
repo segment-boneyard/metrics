@@ -1,11 +1,11 @@
 
-# metrics
-
 [![Build Status](https://circleci.com/gh/segmentio/metrics.png?circle-token=bf2af92121185d80a46f1a1f605a90ee1a6b4be1)](https://circleci.com/gh/segmentio/metrics)
+
+# metrics
 
   Simple and _pluggable_ business **metrics**.
 
-  [Segment](https://segment.io) uses **metrics** to power our internal dashboards. Its also used as an internal API for other admin services, like auto-updating Google spreadsheets.
+  [Segment](https://segment.io) uses **metrics** as an internal API to power our dashboards, auto-updating spreadsheets, and other admin services. 
 
 ```js
 var Metrics = require('metrics');
