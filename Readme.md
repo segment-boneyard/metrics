@@ -1,7 +1,10 @@
+[![Build Status](https://circleci.com/gh/segmentio/metrics.png?circle-token=bf2af92121185d80a46f1a1f605a90ee1a6b4be1)](https://circleci.com/gh/segmentio/metrics)
 
 # metrics
 
   Simple and _pluggable_ business metrics.
+
+// todo: put another line before the code
 
 ```js
 var Metrics = require('metrics');
@@ -18,6 +21,8 @@ Metrics()
   });
 ```
 
+that you can use to update dashboards,
+
 ![](https://f.cloud.github.com/assets/658544/2361169/09325510-a62e-11e3-8f49-e327e89595cd.png)
 
 
@@ -28,6 +33,8 @@ Metrics()
   **It's dashboard agnostic:** so you can use [Geckoboard][4], [Ducksboard][5], [Leftronic][6], or your own internal dashboard.
 
   **It pushes you in the right direction:** use [Segment][7]'s [metrics expertise][8] to avoid the wrong metrics.
+
+  **Its an internal metrics API:** [Segment](https://segment.io) uses the [metrics-express](https://github.com/segmentio/metrics-express) plugin to serve our metrics to other internal services (like admin tools and auto-updating spreadsheets).
 
 [1]: https://github.com/metrics-stripe-charges
 [2]: https://github.com/segmentio/metrics-helpscout
