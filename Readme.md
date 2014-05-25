@@ -93,9 +93,9 @@ Metrics()
 
 - [metrics-aws-billing](https://github.com/segmentio/metrics-aws-billing) - how much your AWS hosting costs
 - [metrics-helpscout](https://github.com/segmentio/metrics-helpscout) - how many active [Helpscout](http://helpscout.com) support tickets you have, and who they're assigned to
-- [metrics-stripe-charges](https://github.com/metrics-stripe-charges) - how much money you're making every month (and today!)
-- [metrics-stripe-subscriptions](https://github.com/metrics-stripe-charges) - how much subscriptions you have, and how much recurring revenue you're generating
-- [metrics-express](https://github.com/metrics-express) - serves your metrics as an HTTP API using an express subapp
+- [metrics-stripe-charges](https://github.com/segmentio/metrics-stripe-charges) - how much money you're making every month (and today!)
+- [metrics-stripe-subscriptions](https://github.com/segmentio/metrics-stripe-charges) - how much subscriptions you have, and how much recurring revenue you're generating
+- [metrics-express](https://github.com/segmentio/metrics-express) - serves your metrics as an HTTP API using an express subapp
 
 ![](https://f.cloud.github.com/assets/658544/2361183/33c4df78-a62e-11e3-9921-6591e787e43e.png)
 
