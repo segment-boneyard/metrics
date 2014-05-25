@@ -5,21 +5,15 @@
 
 ```js
 var Metrics = require('metrics');
-var charges = require('metrics-stripe-charges');
-var subscriptions = require('metrics-stripe-subscriptions');
-var helpscout = require('metrics-helpscout');
-var geckoboard = require('geckoboard')('g-api-key');
 
-var metrics = new Metrics()
+Metrics()
   .every('5m', charges('stripe-key'))
   .every('10m', subscriptions('stripe-key'))
   .every('1h', helpscout('helpscout-key'))
 
   .use(function (metrics) {
     metrics.on('stripe charges last month', function (val) {
-      geckoboard('widget-id').number(val, function () {
-        console.log('we have data in a dashboard!');
-      });
+      geckoboard('widget-id').number(val));
     });
   });
 ```
@@ -33,7 +27,7 @@ var metrics = new Metrics()
 
   **It's dashboard agnostic:** so you can use [Geckoboard][4], [Ducksboard][5], [Leftronic][6], or your own internal metrics.
 
-  **It pushes you in the right direction:** use [Segment.io][7]'s [metrics expertise][8] to avoid the wrong metrics.
+  **It pushes you in the right direction:** use [Segment][7]'s [metrics expertise][8] to avoid the wrong metrics.
 
 [1]: https://github.com/metrics-stripe-charges
 [2]: https://github.com/segmentio/metrics-helpscout
@@ -51,7 +45,7 @@ var metrics = new Metrics()
 
 ## How does it work?
 
-**Metrics** is super simple. You write a plugin that puts data in, and you write plugins that use that data. [Segment](https://segment.com) uss it for sending data to a dashboard. Plugins that need data defer execution until that data is available.
+**Metrics** is super simple. You write a plugin that puts data in, and you write plugins that use that data. [Segment](https://segment.com) uses it for sending internal metrics to a dashboard. 
 
 A plugin can learn about how much you're making on Stripe, and make that data available:
 
@@ -61,9 +55,6 @@ var stripe = require('stripe')(key);
 module.exports = function (metrics) {
   stripe.charges.list(function (err, charges) {
     metrics.set('total charges', charges.length);
-    metrics.set('total charged', charges.reduce(function (memo, charge) {
-      return memo + charge.amount;
-    }, 0));
   });
 };
 ```
@@ -74,16 +65,14 @@ and another plugin can push the data to a geckoboard:
 var geckoboard = require('geckobard')('api-key');
 
 module.exports = function (metrics) {
-  metrics.on('total charged', function (val) {
-    geckoboard('widget-id').number(val);
-  });
+  metrics.on('total charges', geckoboard('widget-id').number);
 }
 ```
 
 and now you have your first dashboard.
 
 ```js
-var metrics = new Metrics()
+Metrics()
   .every('5m', charges('stripe-key'))
   .use(dashboard);
 ```
@@ -101,25 +90,25 @@ Existing plugins for metrics can tell you:
 
 ## API
 
-At its core, `metrics` is a simple key value store. You can `set` key / value pairs, and then get then back. plugins listen for when keys are set and update themselves.
+At its core, **metrics** is a simple key value store. Plugins put data into the hashtable, and then use that data to update dashboards, send emails, and really anything you want.
 
 #### new Metrics()
 
 Create a new `Metrics` instance.
 
-#### .set(key, val)
+#### #set(key, val)
 
 Set a `key` / `val` pair.
 
-#### .get(key)
+#### #get(key)
 
 Get a value at `key`.
 
-#### .keys()
+#### #keys()
 
 Get a list of keys.
 
-#### .every(interval, plugin)
+#### #every(interval, plugin)
 
 Add a metrics plugin to run on an `interval`.
 
@@ -131,7 +120,7 @@ var metrics = new Metrics()
   });
 ```
 
-#### .on(keys.., cb)
+#### #on(keys.., cb)
 
 Listen for when one or more keys become available.
 
