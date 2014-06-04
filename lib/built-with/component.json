@@ -1,0 +1,5 @@
+{
+  "name": "built-with",
+  "styles": ["index.css"],
+  "images": ["white.svg", "black.svg"]
+}

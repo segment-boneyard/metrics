@@ -1,0 +1,34 @@
+p {
+  -webkit-font-smoothing: antialiased;
+}
+
+
+/**
+ * Colors
+ */
+
+:root {
+  --color-red: #D33737;
+  --color-lightGrey: #FAFAFA;
+}
+
+/**
+ * suitcss/base
+ */
+
+:root {
+  --background-base: white;
+  --color-base: #797979;
+  --font-base: 19px/25px 'effra';
+  --link-color-base: var(--color-red);
+  --link-color-hover-base: var(--link-color-base);
+}
+
+/**
+ * suitcss/components-grid
+ */
+
+:root {
+  --baseline: 25px;
+  --gutter-size-Grid: 30px;
+}

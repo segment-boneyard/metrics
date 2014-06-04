@@ -1,8 +1,11 @@
+build: component.json $(shell find lib/*/*)
+	component build
+	myth build/build.css build/build.css
+	minify build/build.css > build/build.min.css
+	minify build/build.js > build/build.min.js
 
-node_modules: package.json
-	@npm install
+watch:
+	watch make build > /dev/null
 
-test: node_modules
-	@./node_modules/.bin/mocha --reporter spec
-
-.PHONY: test
+server:
+	serve

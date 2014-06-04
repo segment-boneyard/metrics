@@ -1,0 +1,18 @@
+{
+  "name": "company-logos",
+  "styles": ["index.css"],
+  "images": [
+    "images/ducksboard.png",
+    "images/ducksboard.svg",
+    "images/ducksboard@2x.png",
+    "images/geckboard-raw.png",
+    "images/geckoboard.png",
+    "images/geckoboard@2x.png",
+    "images/leftronic-raw.png",
+    "images/leftronic.png",
+    "images/leftronic@2x.png",
+    "images/librato-raw.jpg",
+    "images/librato.png",
+    "images/librato@2x.png"
+  ]
+}

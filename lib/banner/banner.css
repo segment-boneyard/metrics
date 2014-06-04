@@ -1,0 +1,16 @@
+@keyframes Banner {
+  from {
+    background-position: 0%;
+  }
+  to {
+    background-position: 100%
+  }
+}
+
+.Banner {
+  padding: calc(var(--baseline) * 5) 0 calc(var(--baseline) * 4);
+  background: url('banner.png') var(--color-red);
+  color: white;
+  animation: Banner 50s linear;
+  animation-iteration-count: infinite
+}

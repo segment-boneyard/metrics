@@ -1,0 +1,5 @@
+{
+  "name": "banner",
+  "styles": ["banner.css"],
+  "images": ["banner.png"]
+}

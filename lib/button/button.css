@@ -1,0 +1,35 @@
+.Button {
+  background: white;
+  border: 5px solid var(--color-red);
+  color: var(--color-red);
+  font-size: 20px;
+  line-height: calc(var(--baseline) * 2.25);
+  padding: 0 30px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  box-sizing: border-box;
+}
+
+.Button--inverse {
+  border-color: white;
+  font-size: 17px;
+  letter-spacing: 1px;
+  padding: 0 70px;
+  border: 0;
+  font-weight: 400;
+}
+
+.Button--ribbon {
+  transform: rotate(45deg);
+  transform-origin: 50%;
+  padding-left: 100px;
+  padding-right: 100px;
+  position: absolute;
+  top: 50px;
+  right: -90px;
+}
+
+.Button--action {
+  margin-top: calc(var(--baseline) * 2);
+}

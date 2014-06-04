@@ -1,0 +1,5 @@
+{
+  "name": "heart",
+  "styles": ["heart.css"],
+  "images": ["heart.svg"]
+}

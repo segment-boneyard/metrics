@@ -1,0 +1,23 @@
+.Plugins {
+  margin-top: calc(var(--baseline)*2);
+  margin-bottom: calc(var(--baseline)*2);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.Plugin {
+  flex: 0 0 33.3333%;
+  min-height: 250px;
+  padding: calc(var(--baseline) * 1.5);
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  margin-left: -1px;
+  margin-bottom: -1px;
+}
+
+.Plugin-title {
+  color: var(--color-red);
+  margin-bottom: calc(var(--baseline)*0.5);
+  font-size: 22px;
+}

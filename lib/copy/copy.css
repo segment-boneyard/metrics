@@ -1,0 +1,13 @@
+.Copy {
+
+}
+
+.Copy p {
+  margin: calc(var(--baseline) * 0.5) 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+.Copy strong {
+  font-weight: 600;
+  color: var(--color-red);
+}

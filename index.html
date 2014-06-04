@@ -1,0 +1,136 @@
+<html>
+<head>
+  <title>Metrics by Segment - The heartbeat of your business as an API</title>
+  <link rel="stylesheet" href="build/build.min.css">
+  <script src="http://use.typekit.net/jhj3bdk.js"></script>
+  <script>try{Typekit.load();}catch(e){}</script>
+</head>
+<body>
+  <header class="Banner u-textCenter">
+    <span class="Heart Heart--animated Heart--banner"></span>
+    <h1 class="Heading-1">Metrics</h1>
+    <h2 class="Heading-2">The heartbeat of your business as an API</h2>
+    <a href="https://github.com/segmentio/metrics" class="Button Button--inverse">Get Started</a>
+    <div class="Banner-footer">
+      <a href="http://segment.io" class="BuiltWith BuiltWith--white">
+        Built by Segment.io
+      </a>
+    </div>
+    <a href="https://github.com/segmentio/metrics" class="Button Button--inverse Button--ribbon">Star on Github</a>
+  </header>
+  <div class="Grid Grid--alignCenter Page">
+    <div class="Grid-cell u-size8of12 Copy">
+
+<!--       <h3 class="Heading-3">What is it?</h3>
+      <p>Simple and pluggable business metrics. It makes internal reporting much easier. Segment uses metrics as an internal API to power our dashboards, auto-updating spreadsheets, and other admin services.</p>
+      <p>Use the metrics expertise of the community to avoid the wrong metrics.</p>
+ -->
+      <h3 class="Heading-3">Getting Started</h3>
+      <p>Metrics is super simple. Plugins write data into a key value store, and other plugins then send that data to dashboards or other reporting tools.</p>
+      <p>First, create an app using Metrics and add a plugin to run and check a service for updates. These plugins are pre-defined metrics so you don't need to figure out how to measure.</p>
+      <code class="Code">var Metrics = require(<span class="Code-string">'metrics'</span>);
+var charges = require(<span class="Code-string">'metrics-stripe-charges'</span>);
+var helpscout = require(<span class="Code-string">'metrics-helpscout'</span>);
+
+var metrics = <span class="Code-keyword">new</span> Metrics()
+  .every(<span class="Code-string">'5m'</span>, charges(<span class="Code-string">'your-stripe-key'</span>))
+  .every(<span class="Code-string">'1d'</span>, helpscout(<span class="Code-string">'your-helpscout-key'</span>));</code>
+
+
+      <p>You can get the value for any of your metrics easily:</p>
+<code class="Code">metrics.on(<span class="Code-string">'stripe charges last month'</span>, function (val) {
+  geckoboard(<span class="Code-string">'widget-id'</span>).number(val));
+});</code>
+
+
+      <h3 class="Heading-3">Using Metrics</h3>
+      <p>Metrics emits events when it fetches new data from services and calculates the result. You can customize your reporting by writing your own plugins. The code below listens for updates from Stripe, calculates the revenue, and pushes it to Geckoboard when the event fires:</p>
+      <code class="Code">metrics.on(<span class="Code-string">'stripe charges last month'</span>, function (val) {
+  geckoboard(<span class="Code-string">'widget-id'</span>).number(val));
+});</code>
+      <p>Maybe you want to send an email to the team every week with a summary of the support tickets closed:</p>
+      <code class="Code">metrics.on(<span class="Code-string">'helpscout tickets closed today'</span>, function (val) {
+  mail.send({
+    to: <span class="Code-string">'team@company.com'</span>,
+    subject: <span class="Code-string">'Support Summary'</span>
+    text: <span class="Code-string">'We closed '</span> + val + <span class="Code-string">' tickets today!'</span>
+  });
+});</code>
+      <p>Segment uses metrics as an internal API to power our dashboards, auto-updating spreadsheets, and other admin services.</p>
+
+    </div>
+  </div>
+  <div class="Grid Grid--alignCenter Page">
+    <div class="Grid-cell u-size8of12 ">
+      <h3 class="Heading-3 Heading--extraSpace">Example: Dashboard</h3>
+      <div class="Grid Grid--withGutter">
+        <div class="Grid-cell u-size1of2 copy">
+          <p>Use Metrics to create a dashboard of data about your business.  Simply listen for events and send them to apps like <a href="">Geckoboard</a>, <a href="">Ducksboard</a>, <a href="">Leftronic</a> and <a href="">Librato</a>.</p>
+          <p>All that's required is to create a plugin to listen to each of the events and send them to your dashboard using their API.</p>
+        </div>
+        <div class="Grid-cell u-size1of2">
+          <img src="/images/dashboard.png" width="350" />
+        </div>
+      </div>
+    </div>
+    <div class="Grid-cell u-size8of12 u-textCenter">
+
+    </div>
+    <div class="u-textCenter">
+        <a href="h" class="Button Button--action">View Examples</a>
+      </div>
+  </div>
+  <div class="Grid Grid--alignCenter Page">
+    <div class="Grid-cell u-size8of12 Copy">
+      <h3 class="Heading-3">Plugins</h3>
+      <p>Plugins allow you to add new integrations to your API. They also come bundled with important metrics that you should be measuring so that you don't need to worry about that MRR calculation ever again.</p>
+    </div>
+  </div>
+  <div class="Page Plugins">
+    <div class="Plugin">
+      <h4 class="Plugin-title">
+        <a href="https://github.com/segmentio/metrics-stripe-charges">
+          Stripe Charges
+        </a>
+      </h4>
+      <p>Use this plugin to visualize Stripe charges over time. See how much you're making from subscriptions, and how much recurring revenue you're generating.</p>
+    </div>
+    <div class="Plugin">
+      <h4 class="Plugin-title">
+        <a href="https://github.com/segmentio/metrics-aws-billing">
+          AWS Billing
+        </a>
+      </h4>
+      <p>Use this plugin to visualize your AWS hosting costs on a dashboard. Access the rolling 30 day estimate for various AWS costs.</p>
+    </div>
+    <div class="Plugin">
+      <h4 class="Plugin-title">
+        <a href="https://github.com/segmentio/metrics-helpscout">
+          Help Scout
+        </a>
+      </h4>
+      <p>Use this plugin to see your active ticket count, and who is behind on their tickets.</p>
+    </div>
+    <div class="Plugin">
+      <h4 class="Plugin-title">
+        <a href="https://github.com/segmentio/metrics-express">
+          metrics-express
+        </a>
+      </h4>
+      <p>An express app to serve your metrics as an internal API.</p>
+    </div>
+    <div class="Plugin">
+      <h4 class="Plugin-title">
+        <a href="https://github.com/segmentio/metrics-google-analytics">
+          Google Analytics
+        </a>
+      </h4>
+      <p>Get access to your Google Analytics stats.</p>
+    </div>
+  </div>
+  <a href="http://segment.io" class="BuiltWith BuiltWith--black">
+    Built by Segment.io
+  </a>
+  <script src="build/build.min.js"></script>
+</body>
+</html>
