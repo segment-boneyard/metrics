@@ -2069,22 +2069,22 @@ p {
     transform: scale(1);
   }
 
-  10% {
+  5% {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+  }
+
+  15% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+
+  20% {
     -webkit-transform: scale(1.1);
     transform: scale(1.1);
   }
 
   30% {
-    -webkit-transform: scale(1);
-    transform: scale(1);
-  }
-
-  40% {
-    -webkit-transform: scale(1.1);
-    transform: scale(1.1);
-  }
-
-  60% {
     -webkit-transform: scale(1);
     transform: scale(1);
   }
@@ -2097,25 +2097,25 @@ p {
     transform: scale(1);
   }
 
-  10% {
+  5% {
+    -webkit-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    transform: scale(1.1);
+  }
+
+  15% {
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1);
+  }
+
+  20% {
     -webkit-transform: scale(1.1);
     -ms-transform: scale(1.1);
     transform: scale(1.1);
   }
 
   30% {
-    -webkit-transform: scale(1);
-    -ms-transform: scale(1);
-    transform: scale(1);
-  }
-
-  40% {
-    -webkit-transform: scale(1.1);
-    -ms-transform: scale(1.1);
-    transform: scale(1.1);
-  }
-
-  60% {
     -webkit-transform: scale(1);
     -ms-transform: scale(1);
     transform: scale(1);
@@ -2132,7 +2132,8 @@ p {
 }
 
 .Heart--animated {
-  /*animation: Heart-beat 1.1s infinite ease-in;*/
+  -webkit-animation: Heart-beat 2s infinite ease-in;
+  animation: Heart-beat 2s infinite ease-in;
 }
 
 .Heart--banner {
