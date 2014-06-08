@@ -1,9 +1,9 @@
 
 # Metrics: Stripe + Ducksboard
 
-![Stripe](http://ignitiondeck.com/id/wp-content/uploads/2013/06/stripe-logo.png)
+![Stripe](https://cloud.githubusercontent.com/assets/658544/3212547/1265945c-ef63-11e3-9dc4-2478b0d5396d.png)
 
-[Ducksboard](https://segmentio.github.io/metrics/build/lib/company-logos/images/ducksboard.png)
+![Ducksboard](https://segmentio.github.io/metrics/build/lib/company-logos/images/ducksboard.png)
 
 This [metrics](https://github.com/segmentio/metrics) example is all you need to send your previous month of [Stripe](https://stripe.com) charges to a [Ducksboard](https://ducksboard.com) dashboard.
 
@@ -18,8 +18,8 @@ Metrics()
   .use(dashboard);
 
 function dashboard (metrics) {
-  metrics.on('stripe charges last month', function (charges) {
-    ducksboard.push(DUCKSBOARD_WIDGET_ID, charges);
+  metrics.on('stripe charges last month', function (val) {
+    ducksboard.push(DUCKSBOARD_WIDGET_ID, val);
   });
 }
 ```
