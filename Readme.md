@@ -103,6 +103,10 @@ Metrics()
 
 It's normal for every company to care about different metrics. If your plugin can help others do easier reporting, pull request this [Readme.md](https://github.com/segmentio/metrics/blob/master/Readme.md) to add your own plugin to this list.
 
+## Window
+
+
+
 ## API
 
 At its core, **metrics** is a simple key value store. Plugins put data into a hashtable, and other plugins then use that data to update dashboards, send emails, or really anything you want.
@@ -171,18 +175,12 @@ new Metrics()
 
 #### new Metric()
 
-A `Metric` instance wraps the metric data, and helps you get to the data in right time frame. 
+A `Metric` instance wraps a single metric `key`.
 
 ```js
 var m = new Metric([
-  {
-    timestamp: 1388563200000,
-    value: 42
-  },
-  {
-    timestamp: 1389168000000,
-    value: 57
-  }
+  { timestamp: 1388563200000, value: 42 },
+  { timestamp: 1389168000000, value: 57 }
 ]);
 
 m.latest()
@@ -191,37 +189,22 @@ m.latest()
 
 #### .set(value[, timestamp])
 
-Adds a `value` at the proper `timestamp`. If there's no `timestamp` provided, the current time will be used.
+Set a metric `value` at a `timestamp`. If there's no `timestamp` provided, the current time will be used.
 
 ```js
 var m = new Metric();
-m.set(68, new Date('1/15/2014'))
+m.set(68)
 m.latest()
 // 68
 ```
 
 #### .latest()
 
-Get the latest `Metric` value.
-
-#### .today()
-
-Return today's metric. Returns `null` if there's no value within the [daily window](#window). 
-
-
-```js
-var m = new Metric();
-var today = new Date();
-var yesterday = Dates.day.shift(today, -1);
-m.set(5, yesterday);
-m.set(10, today);
-m.today()
-// 10
-``` 
+Get the latest recorded value.
 
 #### .daily([start, end])
 
-Return metrics seperated by a daily granularity. If no `start` or `end` are provided, this is the equivalent of [today()](#today). Returns `null` if there's no value within the [requested window](#window). 
+Return metrics seperated by a daily granularity. If no `start` or `end` are provided, this is the equivalent of [latest()](#today). Returns `null` if there's no value within the [requested window](#window). 
 
 ```js
 var m = new Metric();
@@ -229,7 +212,7 @@ var today = new Date();
 var yesterday = Dates.day.shift(today, -1);
 m.set(5, yesterday);
 m.set(10, today);
-m.daily(); // get today's value
+m.daily(); // get the latest value
 // 10
 ```
 
