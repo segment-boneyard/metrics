@@ -111,7 +111,7 @@ At its core, **metrics** is a simple key value store. Plugins put data into a ha
 
 Create a new `Metrics` instance.
 
-#### .set(key, val)
+#### .set(key, val, timestamp)
 
 Set a `key` / `val` pair.
 
@@ -169,7 +169,7 @@ new Metrics()
 
 ```
 
-#### #Metric
+#### new Metric()
 
 A `Metric` instance wraps the metric data, and helps you get to the data in right time frame. 
 
@@ -189,13 +189,13 @@ m.latest()
 // 57
 ```
 
-#### .add(value[, timestamp])
+#### .set(value[, timestamp])
 
 Adds a `value` at the proper `timestamp`. If there's no `timestamp` provided, the current time will be used.
 
 ```js
 var m = new Metric();
-m.add(68, new Date('1/15/2014'))
+m.set(68, new Date('1/15/2014'))
 m.latest()
 // 68
 ```
@@ -213,8 +213,8 @@ Return today's metric. Returns `null` if there's no value within the [daily wind
 var m = new Metric();
 var today = new Date();
 var yesterday = Dates.day.shift(today, -1);
-m.add(5, yesterday);
-m.add(10, today);
+m.set(5, yesterday);
+m.set(10, today);
 m.today()
 // 10
 ``` 
@@ -227,8 +227,8 @@ Return metrics seperated by a daily granularity. If no `start` or `end` are prov
 var m = new Metric();
 var today = new Date();
 var yesterday = Dates.day.shift(today, -1);
-m.add(5, yesterday);
-m.add(10, today);
+m.set(5, yesterday);
+m.set(10, today);
 m.daily(); // get today's value
 // 10
 ```
