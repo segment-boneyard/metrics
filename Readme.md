@@ -204,9 +204,11 @@ Get the latest recorded value.
 
 #### .daily([start, end])
 
-Return metrics seperated by a daily granularity. If no `start` or `end` are provided, this is the equivalent of [latest()](#today). Returns `null` if there's no value within the [requested window](#window). 
+Return metrics seperated by a daily granularity. If no `start` or `end` are provided, this is the equivalent of [latest()](#today).
 
 ```js
+var Dates = require('date-math');
+
 var m = new Metric();
 var today = new Date();
 var yesterday = Dates.day.shift(today, -1);
@@ -233,6 +235,14 @@ If both `start` and `end` are provided, returns an array of all the days between
 m.daily(-1, 0) // get the values from yesterday to today
 // [5, 10]
 ```
+
+Returns `null` if there's no value within the [requested window](#window). 
+
+```js
+m.daily(-2, 0) // get the values from yesterday to today
+// [null, 5, 10]
+```
+
 
 ## License
 
