@@ -16,8 +16,8 @@ Metrics()
   .every('1h', helpscout('helpscout-key'))
 
   .use(function (metrics) {
-    metrics.on('stripe charges last month', function (val) {
-      geckoboard('widget-id').number(val));
+    metrics.on('stripe charges last month', function (metric) {
+      geckoboard('widget-id').number(metric.latest()));
     });
   });
 ```
@@ -75,7 +75,9 @@ and another plugin can push the data to a geckoboard:
 var geckoboard = require('geckobard')('api-key');
 
 module.exports = function (metrics) {
-  metrics.on('total charges', geckoboard('widget-id').number);
+  metrics.on('total charges', function (metric) {
+    geckoboard('widget-id').number(metric.latest());
+  });
 }
 ```
 
@@ -115,7 +117,7 @@ Set a `key` / `val` pair.
 
 #### .get(key)
 
-Get a value at `key`.
+Get a metric at `key`.
 
 #### .keys()
 
@@ -145,7 +147,7 @@ var metrics = new Metrics()
   });
 
 metrics.on('hours', 'minutes', function (h, m) {
-  console.log('time update: ' + h + ':' + m);
+  console.log('time update: ' + h.latest() + ':' + m.latest());
 });
 ```
 
@@ -165,6 +167,88 @@ new Metrics()
     });
   });
 
+```
+
+#### #Metric
+
+A `Metric` instance wraps the metric data, and helps you get to the data in right time frame. 
+
+```js
+var m = new Metric([
+  {
+    timestamp: 1388563200000,
+    value: 42
+  },
+  {
+    timestamp: 1389168000000,
+    value: 57
+  }
+]);
+
+m.latest()
+// 57
+```
+
+#### .add(value[, timestamp])
+
+Adds a `value` at the proper `timestamp`. If there's no `timestamp` provided, the current time will be used.
+
+```js
+var m = new Metric();
+m.add(68, new Date('1/15/2014'))
+m.latest()
+// 68
+```
+
+#### .latest()
+
+Get the latest `Metric` value.
+
+#### .today()
+
+Return today's metric. Returns `null` if there's no value within the [daily window](#window). 
+
+
+```js
+var m = new Metric();
+var today = new Date();
+var yesterday = Dates.day.shift(today, -1);
+m.add(5, yesterday);
+m.add(10, today);
+m.today()
+// 10
+``` 
+
+#### .daily([start, end])
+
+Return metrics seperated by a daily granularity. If no `start` or `end` are provided, this is the equivalent of [today()](#today). Returns `null` if there's no value within the [requested window](#window). 
+
+```js
+var m = new Metric();
+var today = new Date();
+var yesterday = Dates.day.shift(today, -1);
+m.add(5, yesterday);
+m.add(10, today);
+m.daily(); // get today's value
+// 10
+```
+
+If just `start` is provided, return the metric value from `start` days ago.
+
+```js
+m.daily(0); // get the value 0 days ago
+// 10
+
+m.daily(-1); // get the value 1 days ago
+// 5
+``` 
+
+If both `start` and `end` are provided, returns an array of all the days between `start` days ago and `end` days ago. 
+
+
+```js
+m.daily(-1, 0) // get the values from yesterday to today
+// [5, 10]
 ```
 
 ## License
