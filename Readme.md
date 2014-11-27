@@ -175,10 +175,9 @@ new Metrics()
 A `Metric` instance wraps a single metric `key`.
 
 ```js
-var m = new Metric([
-  { timestamp: 1388563200000, value: 42 },
-  { timestamp: 1389168000000, value: 57 }
-]);
+var m = new Metric()
+  .set(new Date(1388563200000), 42)
+  .set(new Date(1389168000000), 57);
 
 m.latest()
 // 57
@@ -189,9 +188,8 @@ m.latest()
 Set a metric `value` at a `timestamp`. If there's no `timestamp` provided, the current time will be used.
 
 ```js
-var m = new Metric();
-m.set(68)
-m.latest()
+var m = new Metric().set(68);
+m.latest();
 // 68
 ```
 

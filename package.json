@@ -1,6 +1,7 @@
 {
   "name": "metrics",
   "version": "0.0.1",
+  "main": "./lib",
   "repository": "git://github.com/segmentio/metrics.git",
   "description": "Simple and pluggable metrics",
   "keywords": [
