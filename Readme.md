@@ -22,7 +22,7 @@ Metrics()
   });
 ```
 
-Plugins add their own metrics using keys like `stripe charges last month`. Each company can customize their reporting by writing their own [plugins](#plugins). 
+Plugins add their own metrics using keys like `stripe charges last 30 days`. Each company can customize their reporting by writing their own [plugins](#plugins). 
 
 The code above calculates revenue and support metrics that can then be visualized with a dashboard, like [Geckoboard](https://geckoboard.com):
 
@@ -112,9 +112,9 @@ At its core, **metrics** is a simple key value store. Plugins put data into a ha
 
 Create a new `Metrics` instance.
 
-#### .set(key, val, timestamp)
+#### .set(key, value, timestamp)
 
-Set a `key` / `val` pair.
+Set a `key` / `value` pair.
 
 #### .get(key)
 
@@ -131,8 +131,8 @@ Add a metrics plugin to run on an `interval`.
 ```js
 var metrics = new Metrics()
   .every('5m', function (metrics) {
-    metrics.set('hours', new Date().getHours());
-    metrics.set('minutes', new Date().getMinutes());
+    metrics.set('mrr', 1000);
+    metrics.set('arr', 1000*12);
   });
 ```
 
@@ -143,12 +143,12 @@ Listen for when one or more keys become available.
 ```js
 var metrics = new Metrics()
   .every('5m', function (metrics) {
-    metrics.set('hours', new Date().getHours());
-    metrics.set('minutes', new Date().getMinutes());
+    metrics.set('mrr', 1000);
+    metrics.set('arr', 1000*12);
   });
 
-metrics.on('hours', 'minutes', function (h, m) {
-  console.log('time update: ' + h.latest() + ':' + m.latest());
+metrics.on('mrr', 'arr', function (mrr, arr) {
+  console.log('mrr update: ' + mrr.latest() + ', arr: ' + arr.latest());
 });
 ```
 
@@ -159,12 +159,12 @@ Add a plugin that consumes metrics data.
 ```js
 new Metrics()
   .every('5m', function (metrics) {
-    metrics.set('hours', new Date().getHours());
-    metrics.set('minutes', new Date().getMinutes());
+    metrics.set('mrr', 1000);
+    metrics.set('arr', 1000*12);
   })
   .use(function (metrics) {
-    metrics.on('hours', 'minutes', function (h, m) {
-      console.log('time update: ' + h + ':' + m);
+    metrics.on('mrr', 'arr', function (mrr, arr) {
+      console.log('mrr update: ' + mrr.latest() + ', arr: ' + arr.latest());
     });
   });
 
@@ -292,7 +292,7 @@ m.daily(-1, 0); // get yesterday's data and today's data
 // now let's set a smaller daily window
 m.window({ daily: ms('1 hour')});
 
-m.daily(-1, 0); // try again
+m.daily(-1, 0); // yesterday's data no longer falls into the window
 // [null, 10]
 ```
 
