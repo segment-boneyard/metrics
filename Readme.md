@@ -5,7 +5,7 @@
 
   Simple and _pluggable_ business **metrics**. It makes internal reporting _much_ easier.
 
-  [Segment](https://segment.io) uses **metrics** as an internal API to power our dashboards, auto-updating spreadsheets, and other admin services. 
+  [Segment](https://segment.com) uses **metrics** as an internal API to power our dashboards, auto-updating spreadsheets, and other admin services. 
 
 ```js
 var Metrics = require('metrics');
@@ -16,7 +16,7 @@ Metrics()
   .every('1h', helpscout('helpscout-key'))
 
   .use(function (metrics) {
-    metrics.on('stripe charges last month', function (metric) {
+    metrics.on('stripe charges last 30 days', function (metric) {
       geckoboard('widget-id').number(metric.latest()));
     });
   });
@@ -37,7 +37,7 @@ The code above calculates revenue and support metrics that can then be visualize
 
   **It pushes you in the right direction:** use [Segment][7]'s [metrics expertise][8] to avoid the wrong metrics.
 
-  **Its an internal metrics API:** [Segment](https://segment.io) uses the [metrics-express](https://github.com/segmentio/metrics-express) plugin to serve our metrics to other internal services (like admin tools and auto-updating spreadsheets).
+  **Its an internal metrics API:** [Segment](https://segment.com) uses the [metrics-express](https://github.com/segmentio/metrics-express) plugin to serve our metrics to other internal services (like admin tools and auto-updating spreadsheets).
 
 [1]: https://github.com/metrics-stripe-charges
 [2]: https://github.com/segmentio/metrics-helpscout
@@ -45,8 +45,8 @@ The code above calculates revenue and support metrics that can then be visualize
 [4]: http://www.geckoboard.com/
 [5]: https://ducksboard.com/
 [6]: https://www.leftronic.com/
-[7]: https://segment.io/
-[8]: https://segment.io/academy/dashboard-metrics-that-actually-work/
+[7]: https://segment.com/
+[8]: https://segment.com/academy/dashboard-metrics-that-actually-work/
 
 ## Installation
 
@@ -102,9 +102,6 @@ Metrics()
 ![](https://f.cloud.github.com/assets/658544/2361183/33c4df78-a62e-11e3-9921-6591e787e43e.png)
 
 It's normal for every company to care about different metrics. If your plugin can help others do easier reporting, pull request this [Readme.md](https://github.com/segmentio/metrics/blob/master/Readme.md) to add your own plugin to this list.
-
-## Window
-
 
 
 ## API
@@ -200,20 +197,23 @@ m.latest()
 
 #### .latest()
 
-Get the latest recorded value.
+Get the latest recorded metric value.
 
-#### .daily([start, end])
+#### .daily(start[, end])
 
-Return metrics seperated by a daily granularity. If no `start` or `end` are provided, this is the equivalent of [latest()](#today).
+Return metric values seperated by a daily granularity. If no `start` or `end` are provided, this is the equivalent of [latest()](#today).
 
 ```js
 var Dates = require('date-math');
 
 var m = new Metric();
+
 var today = new Date();
 var yesterday = Dates.day.shift(today, -1);
+
 m.set(5, yesterday);
 m.set(10, today);
+
 m.daily(); // get the latest value
 // 10
 ```
@@ -243,6 +243,58 @@ m.daily(-2, 0) // get the values from yesterday to today
 // [null, 5, 10]
 ```
 
+#### .weekly(start[, end])
+
+Return metric values seperated by a weekly granularity. See [daily](#dailystart-end) for similar usage.
+
+#### .monthly(start[, end])
+
+Return metric values seperated by a monthly granularity. See [daily](#dailystart-end) for similar usage.
+
+#### .yearly(start[, end])
+
+Return metric values seperated by a yearly granularity. See [daily](#dailystart-end) for similar usage.
+
+## Window
+
+The metrics service doesn't fetch metrics at perfect time granularities. That means today's most recent value may be a few hours ago, and yesterday's may have been collected 18 hours ago. A `Metric` will return the metric data along a granularity only if it falls into the proper window. 
+
+```js
+var now = new Date('Wed Nov 26 2014 16:00:00 GMT-0800 (PST)'
+var minus26Hours = new Date('Wed Nov 25 2014 14:00:00 GMT-0800 (PST)'
+
+var m = new Metric();
+m.set(5, minus26Hours); // happened 26 hours ago
+m.set(10, now); // happened now
+
+m.daily(-1, 0); // get yesterday's data and today's data
+// [5, 10]
+```
+
+In the above example, a metric's value will be returned if it falls within the following threshold window: 
+
+```js
+var ms = require('ms');
+
+var m = new Metric();
+m.window({
+  daily: ms('5 hours'),
+  weekly: ms('1 day'),
+  monthly: ms('3 days')
+});
+
+m.set(5, minus26Hours); // happened 26 hours ago
+m.set(10, now); // happened now
+
+m.daily(-1, 0); // get yesterday's data and today's data
+// [5, 10]
+
+// now let's set a smaller daily window
+m.window({ daily: ms('1 hour')});
+
+m.daily(-1, 0); // try again
+// [null, 10]
+```
 
 ## License
 
