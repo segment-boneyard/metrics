@@ -39,7 +39,7 @@ The code above calculates revenue and support metrics that can then be visualize
 
   **Its an internal metrics API:** [Segment](https://segment.io) uses the [metrics-express](https://github.com/segmentio/metrics-express) plugin to serve our metrics to other internal services (like admin tools and auto-updating spreadsheets).
 
-[1]: https://github.com/metrics-stripe-charges
+[1]: https://github.com/segmentio/metrics-stripe-charges
 [2]: https://github.com/segmentio/metrics-helpscout
 [3]: https://github.com/segmentio/metrics-aws-billing
 [4]: http://www.geckoboard.com/
