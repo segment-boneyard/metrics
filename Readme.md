@@ -26,7 +26,7 @@ Plugins add their own metrics using keys like `stripe charges last 30 days`. Eac
 
 The code above calculates revenue and support metrics that can then be visualized with a dashboard, like [Geckoboard](https://geckoboard.com):
 
-![](https://f.cloud.github.com/assets/658544/2361169/09325510-a62e-11e3-8f49-e327e89595cd.png)
+![](https://f.cloud.github.com/assets/658544/2361169/09325510-a62e11e3-8f49-e327e89595cd.png)
 
 
   **It's easy to get started:** there's already plugins for [Stripe][1], [Helpscout][2], [AWS][3], and others.
@@ -99,7 +99,7 @@ Metrics()
 - [metrics-stripe-subscriptions](https://github.com/segmentio/metrics-stripe-charges) - how much subscriptions you have, and how much recurring revenue you're generating
 - [metrics-express](https://github.com/segmentio/metrics-express) - serves your metrics as an HTTP API using an express subapp
 
-![](https://f.cloud.github.com/assets/658544/2361183/33c4df78-a62e-11e3-9921-6591e787e43e.png)
+![](https://f.cloud.github.com/assets/658544/2361183/33c4df78-a62e11e3-9921-6591e787e43e.png)
 
 It's normal for every company to care about different metrics. If your plugin can help others do easier reporting, pull request this [Readme.md](https://github.com/segmentio/metrics/blob/master/Readme.md) to add your own plugin to this list.
 
@@ -176,8 +176,8 @@ A `Metric` instance wraps a single metric `key`.
 
 ```js
 var m = new Metric()
-  .set(new Date(1388563200000), 42)
-  .set(new Date(1389168000000), 57);
+  .set(42, new Date(1388563200000))
+  .set(57, new Date(1389168000000));
 
 m.latest()
 // 57
@@ -197,9 +197,9 @@ m.latest();
 
 Get the latest recorded metric value.
 
-#### .daily(start[, end])
+#### .daysAgo(days)
 
-Return metric values seperated by a daily granularity. If no `start` or `end` are provided, this is the equivalent of [latest()](#today).
+Return the value from `days` ago.
 
 ```js
 var Dates = require('date-math');
@@ -207,51 +207,26 @@ var Dates = require('date-math');
 var m = new Metric();
 
 var today = new Date();
-var yesterday = Dates.day.shift(today, -1);
+var yesterday = Dates.day.shift(today, 1);
 
 m.set(5, yesterday);
 m.set(10, today);
 
-m.daily(); // get the latest value
-// 10
-```
-
-If just `start` is provided, return the metric value from `start` days ago.
-
-```js
-m.daily(0); // get the value 0 days ago
-// 10
-
-m.daily(-1); // get the value 1 days ago
+m.daysAgo(1); // get the latest value
 // 5
-``` 
-
-If both `start` and `end` are provided, returns an array of all the days between `start` days ago and `end` days ago. 
-
-
-```js
-m.daily(-1, 0) // get the values from yesterday to today
-// [5, 10]
 ```
 
-Returns `null` if there's no value within the [requested window](#window). 
+#### .weeksAgo(weeks)
 
-```js
-m.daily(-2, 0) // get the values from yesterday to today
-// [null, 5, 10]
-```
+Return the value from `weeks` ago.
 
-#### .weekly(start[, end])
+#### .months(months)
 
-Return metric values seperated by a weekly granularity. See [daily](#dailystart-end) for similar usage.
+Return the value from `months` ago.
 
-#### .monthly(start[, end])
+#### .yearsAgo(years)
 
-Return metric values seperated by a monthly granularity. See [daily](#dailystart-end) for similar usage.
-
-#### .yearly(start[, end])
-
-Return metric values seperated by a yearly granularity. See [daily](#dailystart-end) for similar usage.
+Return the value from `years` ago.
 
 ## Window
 
@@ -265,8 +240,8 @@ var m = new Metric();
 m.set(5, minus26Hours); // happened 26 hours ago
 m.set(10, now); // happened now
 
-m.daily(-1, 0); // get yesterday's data and today's data
-// [5, 10]
+m.daysAgo(1); // get yesterday's metrics
+// 5
 ```
 
 In the above example, a metric's value will be returned if it falls within the following threshold window: 
@@ -276,22 +251,23 @@ var ms = require('ms');
 
 var m = new Metric();
 m.window({
-  daily: ms('5 hours'),
-  weekly: ms('1 day'),
-  monthly: ms('3 days')
+  days: ms('5 hours'),
+  weeks: ms('1 day'),
+  months: ms('3 days'),
+  years: ms('5 days')
 });
 
 m.set(5, minus26Hours); // happened 26 hours ago
 m.set(10, now); // happened now
 
-m.daily(-1, 0); // get yesterday's data and today's data
-// [5, 10]
+m.daysAgo(1); // get yesterday's data
+// 5
 
 // now let's set a smaller daily window
-m.window({ daily: ms('1 hour')});
+m.window({ days: ms('1 hour')});
 
-m.daily(-1, 0); // yesterday's data no longer falls into the window
-// [null, 10]
+m.daysAgo(1); // yesterday's data no longer falls into the window
+// null
 ```
 
 ## License

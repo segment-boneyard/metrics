@@ -28,10 +28,8 @@ describe('Metrics', function () {
 
     it('should emit an event on key set', function (done) {
       var metrics = Metrics();
-      metrics.on('a', function (metric, value, timestamp) {
+      metrics.on('a', function (metric) {
         assert(1, metric.latest());
-        assert(1, value);
-        assert(isDate(timestamp));
         done();
       });
       metrics.set('a', 1);
@@ -40,9 +38,8 @@ describe('Metrics', function () {
     it('should emit an event on key set with a timestamp', function (done) {
       var metrics = Metrics();
       var d = new Date('1/1/2014');
-      metrics.on('a', function (m, value, timestamp) {
-        assert(1, value);
-        assert(d, timestamp);
+      metrics.on('a', function (metric) {
+        assert(1, metric.latest());
         done();
       });
       metrics.set('a', 1, d);
@@ -92,13 +89,8 @@ describe('Metrics', function () {
       });
     });
 
-    // TODO: write for loop to create tests for weekly, monthly, yearly
-    describe('daily', function () {
-      it('should get the todays value by default', function () {
-        assert(1, new Metric()
-                    .set(1)
-                    .daily());
-      });
+    // TODO: write for loop to create tests for weeksAgo, monthsAgo, yearsAgo
+    describe('daysAgo', function () {
 
       it('should be able to get a single past value', function () {
         var today = new Date();
@@ -106,27 +98,17 @@ describe('Metrics', function () {
         assert(1, new Metric()
                     .set(1, sevenDaysAgo)
                     .set(2, today)
-                    .daily(-7));
+                    .daysAgo(7));
       });
-
-      it('should be able to get a range', function () {
-        var result = new Metric()
-                    .set(1, sevenDaysAgo)
-                    .set(2, today)
-                    .daily(-7, 0);
-        var expected = [1, null, null, null, null, null, null, 2);
-        assert(expected, result);
-      });
-
       it('should not allow fetch outside window', function () {
         var window = ms('5 hours');
-        var daysAgo = -30;
+        var daysAgo = 30;
         var now = new Date();
-        var outside = new Date(now.getTime() - window - 1);
-        assert(null, new Metric()
-          .window({ daily: window })
+        var outside = new Date(now.getTime() - ms(daysAgo + ' days') - window - 1);
+        assert(null === new Metric()
+          .window({ days: window })
           .set(1, outside)
-          .daily(daysAgo));
+          .daysAgo(daysAgo));
       });
     });
   });
