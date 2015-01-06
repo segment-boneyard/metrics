@@ -1,6 +1,7 @@
 {
   "name": "metrics",
   "version": "0.0.1",
+  "main": "./lib",
   "repository": "git://github.com/segmentio/metrics.git",
   "description": "Simple and pluggable metrics",
   "keywords": [
@@ -8,10 +9,13 @@
     "API"
   ],
   "dependencies": {
+    "date-math": "0.0.1",
     "debug": "^0.7.4",
+    "defaults": "^1.0.0",
+    "lodash": "^2.4.1",
     "ms": "^0.6.2"
   },
   "devDependencies": {
-    "mocha": "^1.19.0"
+    "mocha": "^2.0.1"
   }
 }
