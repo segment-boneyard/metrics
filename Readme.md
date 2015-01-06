@@ -114,11 +114,11 @@ Create a new `Metrics` instance.
 
 #### .set(key, value, timestamp)
 
-Set a `key` / `value` pair.
+Set a `key` / `value` pair at a `timestamp` for a [Metric](#new-metric). If no `timestamp` is provided, current time is assumed.
 
 #### .get(key)
 
-Get a metric at `key`.
+Get a [Metric](#new-metric) at `key`.
 
 #### .keys()
 
