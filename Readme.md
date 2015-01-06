@@ -26,7 +26,7 @@ Plugins add their own metrics using keys like `stripe charges last 30 days`. Eac
 
 The code above calculates revenue and support metrics that can then be visualized with a dashboard, like [Geckoboard](https://geckoboard.com):
 
-![](https://f.cloud.github.com/assets/658544/2361169/09325510-a62e11e3-8f49-e327e89595cd.png)
+![](https://f.cloud.github.com/assets/658544/2361169/09325510-a62e-11e3-8f49-e327e89595cd.png)
 
 
   **It's easy to get started:** there's already plugins for [Stripe][1], [Helpscout][2], [AWS][3], and others.
@@ -99,7 +99,7 @@ Metrics()
 - [metrics-stripe-subscriptions](https://github.com/segmentio/metrics-stripe-charges) - how much subscriptions you have, and how much recurring revenue you're generating
 - [metrics-express](https://github.com/segmentio/metrics-express) - serves your metrics as an HTTP API using an express subapp
 
-![](https://f.cloud.github.com/assets/658544/2361183/33c4df78-a62e11e3-9921-6591e787e43e.png)
+![](https://f.cloud.github.com/assets/658544/2361183/33c4df78-a62e-11e3-9921-6591e787e43e.png)
 
 It's normal for every company to care about different metrics. If your plugin can help others do easier reporting, pull request this [Readme.md](https://github.com/segmentio/metrics/blob/master/Readme.md) to add your own plugin to this list.
 
