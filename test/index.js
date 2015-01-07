@@ -87,6 +87,18 @@ describe('Metrics', function () {
                     .set(1, new Date('2/1/2013'))
                     .latest());
       });
+
+      it('should allow 0', function () {
+        assert.deepEqual(0, new Metric()
+                    .set(0)
+                    .latest());
+      });
+
+      it('should allow 0.0', function () {
+        assert.deepEqual(0.0, new Metric()
+                    .set(0.0)
+                    .latest());
+      });
     });
 
     // TODO: write for loop to create tests for weeksAgo, monthsAgo, yearsAgo
