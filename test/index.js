@@ -101,8 +101,24 @@ describe('Metrics', function () {
       });
     });
 
+    describe('#timestamps', function () {
+      it('should get a list of set timestamps', function () {
+        assert(1, new Metric()
+                    .set(2)
+                    .timestamps().length);
+      });
+    });
+
+    describe('#values', function () {
+      it('should return a map of timestamps to values', function () {
+        assert(1, Object.keys(new Metric()
+                    .set(2)
+                    .timestamps()).length);
+      });
+    });
+
     // TODO: write for loop to create tests for weeksAgo, monthsAgo, yearsAgo
-    describe('daysAgo', function () {
+    describe('#daysAgo', function () {
 
       it('should be able to get a single past value', function () {
         var today = new Date();
@@ -112,6 +128,7 @@ describe('Metrics', function () {
                     .set(2, today)
                     .daysAgo(7));
       });
+
       it('should not allow fetch outside window', function () {
         var window = ms('5 hours');
         var daysAgo = 30;
@@ -121,6 +138,22 @@ describe('Metrics', function () {
           .window({ days: window })
           .set(1, outside)
           .daysAgo(daysAgo));
+      });
+    });
+
+    describe('#from', function () {
+      it('should be able to the "X days ago" string', function () {
+        var today = new Date();
+        var sevenDaysAgo = Dates.day.shift(today, -7);
+        assert(1, new Metric()
+                    .set(1, sevenDaysAgo)
+                    .from('7 days ago'));
+      });
+
+      it('should be able to the "today" string', function () {
+        assert(2, new Metric()
+                    .set(2)
+                    .from('today'));
       });
     });
   });

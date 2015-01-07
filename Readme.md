@@ -193,6 +193,28 @@ m.latest();
 // 68
 ```
 
+#### .timestamps()
+
+Return an array of timestamps for which this timestamp has recorded values.
+
+```js
+[
+  ISODate('Wed Jan 07 2015 12:14:16 GMT-0800 (PST)'),
+  new Date('Tue Jan 06 2015 12:14:16 GMT-0800 (PST)')
+]
+```
+
+#### .values()
+
+Return a map of the timestamps to values that are recorded for this metric.
+
+```js
+{
+  '1420661709503': 35
+  '1420660609503': 24
+}
+```
+
 #### .latest()
 
 Get the latest recorded metric value.
@@ -228,7 +250,31 @@ Return the value from `months` ago.
 
 Return the value from `years` ago.
 
-## Window
+#### .from(date)
+
+Return the value from `date`, accepting any valid [date.js](https://github.com/MatthewMueller/date#examples) input.
+
+```js
+m.from('10 minutes from now')
+m.from('at 5pm')
+m.from('at 12:30')
+m.from('at 23:35')
+m.from('tuesday at 9am')
+m.from('monday at 1:00am')
+m.from('last monday at 1:00am')
+m.from('yesterday at 12:30am')
+m.from('2 weeks from wednesday')
+m.from('tomorrow night at 9')
+m.from('tomorrow afternoon')
+m.from('this morning at 9')
+m.from('2 years from yesterday at 5pm')
+m.from('last month')
+m.from('at 12:30')
+m.from('tuesday at 9')
+m.from('tomorrow at 15')
+``` 
+
+### Window
 
 The metrics service doesn't fetch metrics at perfect time granularities. That means today's most recent value may be a few hours ago, and yesterday's may have been collected 18 hours ago. A `Metric` will return the metric data along a granularity only if it falls into the proper window. 
 
