@@ -220,7 +220,7 @@ m.daysAgo(1); // get the latest value
 
 Return the value from `weeks` ago.
 
-#### .months(months)
+#### .monthsAgo(months)
 
 Return the value from `months` ago.
 
