@@ -2,7 +2,7 @@
 var assert = require('assert');
 var isDate = require('lodash').isDate;
 var Metrics = require('..');
-var Dates = require('date-math');
+var datejs = require('date.js');
 var Metric = Metrics.Metric;
 var ms = require('ms');
 
@@ -117,16 +117,25 @@ describe('Metrics', function () {
       });
     });
 
-    // TODO: write for loop to create tests for weeksAgo, monthsAgo, yearsAgo
-    describe('#daysAgo', function () {
-
-      it('should be able to get a single past value', function () {
-        var today = new Date();
-        var sevenDaysAgo = Dates.day.shift(today, -7);
+    describe('#from', function () {
+      it('should be able to the "X days ago" string', function () {
         assert(1, new Metric()
-                    .set(1, sevenDaysAgo)
-                    .set(2, today)
-                    .daysAgo(7));
+                    .set(1, datejs('7 days ago'))
+                    .from('7 days ago'));
+      });
+
+      it('should be able to the "today" string', function () {
+        assert(2, new Metric()
+                    .set(2)
+                    .from('today'));
+      });
+
+      it('should select the closest value inside the window', function () {
+        var m = new Metric()
+          .set(1, new Date('1/3/2015 14:00'))
+          .set(2, new Date('1/3/2015 15:00'))
+          .set(3, new Date('1/4/2015 2:00'));
+        assert(2, m.from(new Date('1/3/2015 16:00')));
       });
 
       it('should not allow fetch outside window', function () {
@@ -135,25 +144,8 @@ describe('Metrics', function () {
         var now = new Date();
         var outside = new Date(now.getTime() - ms(daysAgo + ' days') - window - 1);
         assert(null === new Metric()
-          .window({ days: window })
           .set(1, outside)
-          .daysAgo(daysAgo));
-      });
-    });
-
-    describe('#from', function () {
-      it('should be able to the "X days ago" string', function () {
-        var today = new Date();
-        var sevenDaysAgo = Dates.day.shift(today, -7);
-        assert(1, new Metric()
-                    .set(1, sevenDaysAgo)
-                    .from('7 days ago'));
-      });
-
-      it('should be able to the "today" string', function () {
-        assert(2, new Metric()
-                    .set(2)
-                    .from('today'));
+          .from(daysAgo + ' days ago', window));
       });
     });
   });

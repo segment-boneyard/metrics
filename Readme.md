@@ -219,42 +219,13 @@ Return a map of the timestamps to values that are recorded for this metric.
 
 Get the latest recorded metric value.
 
-#### .daysAgo(days)
-
-Return the value from `days` ago.
-
-```js
-var Dates = require('date-math');
-
-var m = new Metric();
-
-var today = new Date();
-var yesterday = Dates.day.shift(today, 1);
-
-m.set(5, yesterday);
-m.set(10, today);
-
-m.daysAgo(1); // get the latest value
-// 5
-```
-
-#### .weeksAgo(weeks)
-
-Return the value from `weeks` ago.
-
-#### .monthsAgo(months)
-
-Return the value from `months` ago.
-
-#### .yearsAgo(years)
-
-Return the value from `years` ago.
-
 #### .from(date)
 
-Return the value from `date`, accepting any valid [date.js](https://github.com/MatthewMueller/date#examples) input.
+Return the value from `date`, accepting any valid [date.js](https://github.com/MatthewMueller/date#examples) input or a `Date` object.
 
 ```js
+m.from(new Date('1/4/2015'))
+m.from('now')
 m.from('10 minutes from now')
 m.from('at 5pm')
 m.from('at 12:30')
@@ -274,47 +245,10 @@ m.from('tuesday at 9')
 m.from('tomorrow at 15')
 ``` 
 
-### Window
+You can also pass a second optional argument `window` to `.from(date, window)`. The `window` controls the distance by which a timestamp can differ from the desired `date` to still be acceptible. 
 
-The metrics service doesn't fetch metrics at perfect time granularities. That means today's most recent value may be a few hours ago, and yesterday's may have been collected 18 hours ago. A `Metric` will return the metric data along a granularity only if it falls into the proper window. 
+For example, `metric.from('2 months ago', 1000*60*60*24)` says that we want the metric value from `2 months ago` but we'll accept anything from `2 months ago - 1 day` to `2 months ago + 1 day`.
 
-```js
-var now = new Date('Wed Nov 26 2014 16:00:00 GMT-0800 (PST)'
-var minus26Hours = new Date('Wed Nov 25 2014 14:00:00 GMT-0800 (PST)'
-
-var m = new Metric();
-m.set(5, minus26Hours); // happened 26 hours ago
-m.set(10, now); // happened now
-
-m.daysAgo(1); // get yesterday's metrics
-// 5
-```
-
-In the above example, a metric's value will be returned if it falls within the following threshold window: 
-
-```js
-var ms = require('ms');
-
-var m = new Metric();
-m.window({
-  days: ms('5 hours'),
-  weeks: ms('1 day'),
-  months: ms('3 days'),
-  years: ms('5 days')
-});
-
-m.set(5, minus26Hours); // happened 26 hours ago
-m.set(10, now); // happened now
-
-m.daysAgo(1); // get yesterday's data
-// 5
-
-// now let's set a smaller daily window
-m.window({ days: ms('1 hour')});
-
-m.daysAgo(1); // yesterday's data no longer falls into the window
-// null
-```
 
 ## License
 
