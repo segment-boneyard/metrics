@@ -1,4 +1,8 @@
 
+1.2.2 - January 12, 2015
+-------------------------
+- fix sub hour window bug
+
 1.2.1 - January 12, 2015
 -------------------------
 - fix keying
