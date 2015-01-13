@@ -1,4 +1,9 @@
 
+1.2.1 - January 12, 2015
+-------------------------
+- fix keying
+- debounce event loop by 25ms
+
 1.2.0 - January 9, 2015
 -------------------------
 - allow Dates for `date` argument in `#metric.from` method
