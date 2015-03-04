@@ -99,6 +99,7 @@ Metrics()
 - [metrics-stripe-charges](https://github.com/segmentio/metrics-stripe-charges) - how much money you're making every month (and today!)
 - [metrics-stripe-subscriptions](https://github.com/segmentio/metrics-stripe-charges) - how much subscriptions you have, and how much recurring revenue you're generating
 - [metrics-express](https://github.com/segmentio/metrics-express) - serves your metrics as an HTTP API using an express subapp
+- [metrics-closeio[(https://github.com/rarestep/metrics-closeio) - information about your leads and opportunities in Close.io
 
 ![](https://f.cloud.github.com/assets/658544/2361183/33c4df78-a62e-11e3-9921-6591e787e43e.png)
 
