@@ -29,7 +29,7 @@ The code above calculates revenue and support metrics that can then be visualize
 ![](https://f.cloud.github.com/assets/658544/2361169/09325510-a62e-11e3-8f49-e327e89595cd.png)
 
 
-  **It's easy to get started:** there's already plugins for [Stripe][1], [Helpscout][2], [AWS][3], and others.
+  **It's easy to get started:** there's already plugins for [Stripe][1], [Helpscout][2], [AWS][3], [Close.io][9] and others.
 
   **It separates data and views:** split the raw data from how its presented.
 
@@ -47,6 +47,7 @@ The code above calculates revenue and support metrics that can then be visualize
 [6]: https://www.leftronic.com/
 [7]: https://segment.com/
 [8]: https://segment.com/academy/dashboard-metrics-that-actually-work/
+[9]: https://github.com/rarestep/metrics-closeio
 
 ## Installation
 
