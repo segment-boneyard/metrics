@@ -16,7 +16,7 @@ Metrics()
   .every('1h', helpscout('helpscout-key'))
 
   .use(function (metrics) {
-    metrics.on('stripe charges last 30 days', function (metric) {
+    metrics.on('stripe mrr', function (metric) {
       geckoboard('widget-id').number(metric.latest()));
     });
   });
@@ -65,7 +65,7 @@ var stripe = require('stripe')(key);
 
 module.exports = function (metrics) {
   stripe.charges.list(function (err, charges) {
-    metrics.set('total charges', charges.length);
+    metrics.set('stripe charges', charges.length);
   });
 };
 ```
@@ -76,7 +76,7 @@ and another plugin can push the data to a geckoboard:
 var geckoboard = require('geckobard')('api-key');
 
 module.exports = function (metrics) {
-  metrics.on('total charges', function (metric) {
+  metrics.on('stripe charges', function (metric) {
     geckoboard('widget-id').number(metric.latest());
   });
 }
